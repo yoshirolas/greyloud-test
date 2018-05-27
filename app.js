@@ -1,13 +1,22 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const passport = require('passport');
+const expressSession = require('express-session');
 
-var indexRouter = require('./routes/index');
-var messageRouter = require('./routes/message');
+const indexRouter = require('./routes/index');
+const messageRouter = require('./routes/message');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
+const registerRouter = require('./routes/register');
 
-var app = express();
+const db = require('./dbUtils/dbUtils.js');
+
+const app = express();
+db.setUpConnection();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +28,36 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//---required for passport
+app.use(expressSession({
+  secret: 'whoiswho',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session()); 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err,user){
+    err 
+      ? done(err)
+      : done(null,user);
+  });
+});
+
+//---Routers
 app.use('/', indexRouter);
 app.use('/message', messageRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/register', registerRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +74,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;
