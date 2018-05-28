@@ -36,7 +36,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -76,6 +78,12 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+  },
+  menuButton: {
+    color: 'white',
+    position: 'absolute',
+    right: '30px',
+    top: '10px',
   },
 });
 
@@ -121,6 +129,12 @@ class App extends React.Component {
             </ListItem>
           </NavLink>
           <Divider />
+          <NavLink to="/application">
+            <ListItem button>
+              <ListItemText primary="Application" />
+            </ListItem>
+          </NavLink>
+          <Divider />
         </List>
       </div>
     );
@@ -140,6 +154,34 @@ class App extends React.Component {
             <Typography variant="title" color="inherit" noWrap>
               Responsive drawer
             </Typography>
+
+            {this.props.user
+            ? (
+                <div>
+                  <Typography variant="title" gutterBottom align="right">
+                    { this.props.user.userName }
+                  </Typography>
+                  <NavLink to="/profile">
+                    <IconButton
+                      aria-owns="menu-appbar"
+                      aria-haspopup="true"
+                      color="inherit"
+                      className={classes.menuButton}
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  </NavLink>
+                </div>
+              )
+            : (
+                <NavLink to="/login">
+                  <Button 
+                    color="inherit" 
+                    className={classes.menuButton}>Login
+                  </Button>
+                </NavLink>
+              )
+            }
           </Toolbar>
         </AppBar>
         <Hidden mdUp>
