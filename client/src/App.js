@@ -1,28 +1,3 @@
-// import React, { Component } from 'react';
-// import axios from 'axios';
-// import './App.css';
-
-// class App extends Component {
-//   state = {message: []}
-
-//   componentDidMount() {
-//     axios('/message')
-//       .then(message => this.setState({ message: message.data }));
-//   }
-
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>Message from server</h1>
-//         {this.state.message}
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
-
-
 import React from 'react';
 import { NavLink } from 'react-router-dom'
 
@@ -46,9 +21,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 const drawerWidth = 240;
 
 const styles = theme => ({
-  root: {
+  rootContainer: {
     flexGrow: 1,
-    height: 430,
+    height: '100%',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -56,11 +31,32 @@ const styles = theme => ({
     width: '100%',
   },
   appBar: {
-    position: 'absolute',
+    position: 'fixed',
     marginLeft: drawerWidth,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
+  },
+  appBarMainContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  appBarLeftContainer: {
+    width: '50%',
+    heiht: '100%',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  appBarRightContainer: {
+    width: '50%',
+    heiht: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  loginContainer: {
+    display: 'flex',
+    alignItems: 'center',
   },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
@@ -81,9 +77,6 @@ const styles = theme => ({
   },
   menuButton: {
     color: 'white',
-    position: 'absolute',
-    right: '30px',
-    top: '10px',
   },
 });
 
@@ -105,31 +98,31 @@ class App extends React.Component {
         <div className={classes.toolbar} />
         <List component="nav">
           <Divider />
-          <NavLink to="/">
+          <NavLink to="/" onClick={this.handleDrawerToggle}>
             <ListItem button>
               <ListItemText primary="Home" />
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink to="/news">
+          <NavLink to="/news" onClick={this.handleDrawerToggle}>
             <ListItem button>
               <ListItemText primary="News" />
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink to="/about">
+          <NavLink to="/about" onClick={this.handleDrawerToggle}>
             <ListItem button>
               <ListItemText primary="About" />
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink to="/contacts">
+          <NavLink to="/contacts" onClick={this.handleDrawerToggle}>
             <ListItem button>
               <ListItemText primary="Contacts" />
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink to="/application">
+          <NavLink to="/application" onClick={this.handleDrawerToggle}>
             <ListItem button>
               <ListItemText primary="Application" />
             </ListItem>
@@ -140,48 +133,55 @@ class App extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
+      <div className={classes.rootContainer}>
         <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
-              Responsive drawer
-            </Typography>
+          <Toolbar className={classes.appBarMainContainer}>
+            <div className={classes.appBarLeftContainer}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={this.handleDrawerToggle}
+                className={classes.navIconHide}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="title" color="inherit" noWrap>
+                Greyloud test
+              </Typography>
+            </div>
+            <div className={classes.appBarRightContainer}>
 
-            {this.props.user
-            ? (
-                <div>
-                  <Typography variant="title" gutterBottom align="right">
-                    { this.props.user.userName }
-                  </Typography>
-                  <NavLink to="/profile">
-                    <IconButton
-                      aria-owns="menu-appbar"
-                      aria-haspopup="true"
-                      color="inherit"
-                      className={classes.menuButton}
-                    >
-                      <AccountCircle />
-                    </IconButton>
-                  </NavLink>
-                </div>
-              )
-            : (
-                <NavLink to="/login">
-                  <Button 
-                    color="inherit" 
-                    className={classes.menuButton}>Login
-                  </Button>
-                </NavLink>
-              )
-            }
+              {this.props.user
+              ? (
+                  <div className={classes.loginContainer}>
+                    <Typography variant="title" color="inherit" noWrap>
+                      {this.props.user.userName}
+                    </Typography>
+                    <NavLink to="/profile">
+                      <IconButton
+                        aria-owns="menu-appbar"
+                        aria-haspopup="true"
+                        color="inherit"
+                        className={classes.menuButton}
+                      >
+                        <AccountCircle />
+                      </IconButton>
+                    </NavLink>
+                  </div>
+                )
+              : (
+                  <div className={classes.loginContainer}>
+                    <NavLink to="/login">
+                      <Button 
+                        color="inherit" 
+                        className={classes.menuButton}>
+                        Login
+                      </Button>
+                    </NavLink>
+                  </div>
+                )
+              }
+            </div>
           </Toolbar>
         </AppBar>
         <Hidden mdUp>
@@ -211,7 +211,10 @@ class App extends React.Component {
             {drawer}
           </Drawer>
         </Hidden>
-        <MainContent location={this.props.location}/>
+        <MainContent 
+          location={this.props.location} 
+          className={classes.loginContainer}
+        />
       </div>
     );
   }

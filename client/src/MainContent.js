@@ -13,12 +13,11 @@ import ProfileContent from './components/ProfileContent';
 
 
 const Main = styled.main`
-  margin-top: 70px;
+  margin: 70px 20px 20px 20px;
   width: 100%;
-  height: 100vh;
   overflow: auto;
+  text-align: center;
 `;
-
 
 class MainContent extends Component {
 

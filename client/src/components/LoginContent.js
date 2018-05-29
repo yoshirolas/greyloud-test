@@ -63,10 +63,18 @@ class LoginContent extends Component {
 	          margin="normal"
 	        />
 	        <div className={classes.buttonContainer}>
-		        <Button variant="raised" color="primary" className={classes.button}>
+		        <Button 
+			        variant="raised" 
+			        color="primary" 
+			        className={classes.button}
+			       >
 		        	Sign In
 		        </Button>
-		        <Button variant="raised" color="secondary" className={classes.button}>
+		        <Button 
+			        variant="raised" 
+			        color="secondary" 
+			        className={classes.button}
+			       >
 		        	Sign Up
 		        </Button>
 	        </div>
