@@ -2,23 +2,12 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import classnames from 'classnames';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-
-import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 
 import ApplicationsList from '../containers/ApplicationsList';
 
@@ -33,17 +22,26 @@ const styles = theme => ({
   	justifyContent: 'center',
   	alignItems: 'center',
   },
+  applicationBtnFormOpen: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  applicationBtnFormClose: {
+    transform: 'rotate(45deg)',
+  }
 });
 
 
 class ApplicationContent extends Component {
-	 state = {
-    open: false,
+	state = {
+    applicationFormOpen: false,
   };
 
-  handleClickOpenNewApplicationForm = () => {
+  handleOpenNewApplicationForm = () => {
   	this.setState({
-  		open: true
+  		applicationFormOpen: !this.state.applicationFormOpen
   	})
   }
 
@@ -70,13 +68,16 @@ class ApplicationContent extends Component {
 		        mini
 		        color="primary" 
 		        aria-label="add"
-		        onClick={this.handleClickOpenNewApplicationForm}
+		        onClick={this.handleOpenNewApplicationForm}
+            className={classnames(classes.applicationBtnFormOpen, {
+              [classes.applicationBtnFormClose]: this.state.applicationFormOpen,
+            })}
 		      >
-		        <AddIcon />
+		        <AddIcon/>
 		      </Button>
       	</div>
       	<ApplicationsList 
-      		newApplicationForm={this.state.open}
+      		newApplicationForm={this.state.applicationFormOpen}
       	/>
       </div>
     );

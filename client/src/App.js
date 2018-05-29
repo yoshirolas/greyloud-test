@@ -124,7 +124,7 @@ class App extends React.Component {
           <Divider />
           <NavLink to="/application" onClick={this.handleDrawerToggle}>
             <ListItem button>
-              <ListItemText primary="Application" />
+              <ListItemText primary="Applications" />
             </ListItem>
           </NavLink>
           <Divider />

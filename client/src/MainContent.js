@@ -24,7 +24,7 @@ class MainContent extends Component {
   state = {message: []}
 
   componentDidMount() {
-    axios('/message')
+    axios.get('/message')
       .then(message => this.setState({ message: message.data }));
   }
 

@@ -28,7 +28,7 @@ const styles = theme => ({
 });
 
 
-class NewApllicationForm extends React.Component {
+class NewApllicationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
