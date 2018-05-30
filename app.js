@@ -31,7 +31,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //---required for passport
-
 passportConfig.configurePassport(app, passport);
 
 app.use(expressSession({
@@ -60,7 +59,7 @@ passport.deserializeUser(function(id, done) {
 app.use('/', indexRouter);
 app.use('/message', messageRouter);
 app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
+// app.use('/logout', logoutRouter);
 app.use('/register', registerRouter);
 
 

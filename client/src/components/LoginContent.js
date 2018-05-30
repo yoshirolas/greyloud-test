@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { asyncSignUp, asyncSignIn } from '../actions/appActions';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -39,6 +43,14 @@ class LoginContent extends Component {
     });
   };
 
+  handleSignUp = () => {
+  	this.props.dispatch(asyncSignUp());
+  }
+
+  handleSignIn = () => {
+  	this.props.dispatch(asyncSignIn());
+  }
+
   render() {
   	const { classes } = this.props;
 
@@ -52,6 +64,7 @@ class LoginContent extends Component {
 	          className={classes.textField}
 	          value={this.state.name}
 	          onChange={this.handleChange('name')}
+	          autoComplete="current-name"
 	          margin="normal"
         	/>
 	        <TextField
@@ -67,6 +80,7 @@ class LoginContent extends Component {
 			        variant="raised" 
 			        color="primary" 
 			        className={classes.button}
+			        onClick={this.handleSignIn}
 			       >
 		        	Sign In
 		        </Button>
@@ -74,6 +88,7 @@ class LoginContent extends Component {
 			        variant="raised" 
 			        color="secondary" 
 			        className={classes.button}
+			        onClick={this.handleSignUp}
 			       >
 		        	Sign Up
 		        </Button>
@@ -84,8 +99,11 @@ class LoginContent extends Component {
   }
 }
 
-TextField.propTypes = {
+LoginContent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginContent);
+export default compose(
+	withStyles(styles),
+	connect()
+)(LoginContent);
