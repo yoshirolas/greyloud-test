@@ -12,6 +12,8 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const registerRouter = require('./routes/register');
 
+const passportConfig = require ('./config/passport');
+
 const db = require('./dbUtils/dbUtils.js');
 
 const app = express();
@@ -29,6 +31,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //---required for passport
+
+passportConfig.configurePassport(app, passport);
+
 app.use(expressSession({
   secret: 'whoiswho',
   resave: false,
@@ -37,17 +42,17 @@ app.use(expressSession({
 }));
 
 app.use(passport.initialize());
-app.use(passport.session()); 
+app.use(passport.session());
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
-
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err,user){
+  User.findById(id, function(err, user){
     err 
       ? done(err)
-      : done(null,user);
+      : done(null, user);
   });
 });
 
