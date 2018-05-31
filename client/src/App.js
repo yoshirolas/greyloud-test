@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { cleanErrMessage } from './actions/appActions';
+import { cleanErrMessage, asyncGetApplicationsList } from './actions/appActions';
 
 import MainContent from './MainContent';
 import PropTypes from 'prop-types';
@@ -96,12 +96,20 @@ class App extends React.Component {
     this.props.dispatch(cleanErrMessage());
   }
 
+  handleGetUsersApplications = () => {
+    this.handleDrawerToggle();
+    if (this.props.user) {
+      this.props.dispatch(
+        asyncGetApplicationsList(this.props.user)
+      );
+    }
+  }
+
   render() {
     const { classes, theme } = this.props;
 
     const drawer = (
-      <div>
-        <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
         <List component="nav">
           <Divider />
           <NavLink to="/" onClick={this.handleDrawerToggle}>
@@ -128,7 +136,7 @@ class App extends React.Component {
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink to="/application" onClick={this.handleDrawerToggle}>
+          <NavLink id="123" to="/application" onClick={this.handleGetUsersApplications}>
             <ListItem button>
               <ListItemText primary="Applications" />
             </ListItem>

@@ -57,3 +57,37 @@ export const cleanErrMessage = () => ({
   type: 'CLEAN_ERR_MESSAGE',
   payload: '',
 });
+
+export const asyncGetApplicationsList = (username) => (dispatch) => {
+  axios.post(
+    `/applications/list`, 
+    {
+      'username': username,
+    }
+  )
+  .then(res => {
+    if (res.data.success) {
+      const applicationsList = res.data.applicationsList.reverse();
+      return dispatch({
+        type: 'SHOW_APPLICATIONS_LIST',
+        payload: applicationsList,
+      })    
+    } else return
+  })
+}
+
+export const asyncAddApplication = (username, title, text) => (dispatch) => {
+  axios.post(
+    `/applications/add`, 
+    {
+      'username': username,
+      'title': title,
+      'text': text
+    }
+  )
+  .then(res => {
+    if (res.data.success) {
+      return dispatch(asyncGetApplicationsList(username))
+    } else return
+  })
+}

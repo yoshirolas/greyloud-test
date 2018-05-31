@@ -50,7 +50,7 @@ class ApplicationsListItem extends React.Component {
           <CardHeader
             avatar={
               <Avatar aria-label="UserName" className={classes.avatar}>
-                R
+                {this.props.username.charAt(0)}
               </Avatar>
             }
             action={
@@ -65,20 +65,14 @@ class ApplicationsListItem extends React.Component {
               <ExpandMoreIcon />
             </IconButton>
             }
-            title="Application title"
-            subheader="Mai 28, 2018"
+            title={this.props.applicationTitle}
+            subheader={this.props.applicationDate}
           />
           
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                Application message 
-                Application message 
-                Application message 
-                Application message
-                Application message
-                Application message
-                Application message
+                {this.props.applicationText}
               </Typography>
             </CardContent>
           </Collapse>

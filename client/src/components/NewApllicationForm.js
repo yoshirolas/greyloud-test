@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
+import { asyncAddApplication } from '../actions/appActions';
+
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -34,7 +38,6 @@ class NewApllicationForm extends Component {
     this.state = {
       applicationTitle: '',
       applicationText: '',
-      active: this.props.active,
     }
   }
 
@@ -44,13 +47,27 @@ class NewApllicationForm extends Component {
     });
   };
 
+  handleAddApplication = () => {
+    if (this.state.applicationTitle && this.state.applicationText) {
+      this.props.dispatch(
+        asyncAddApplication(this.props.user, this.state.applicationTitle, this.state.applicationText)
+      );
+      this.setState({
+        applicationTitle: '',
+        applicationText: '',
+      });
+    }
+  }
+
   render() {
-    console.log(this.props.active)
     const { classes } = this.props;
     if (this.props.active) {
       return (
         <div>
-          <h2>New application</h2>
+          { this.props.user 
+            ? <h2>New application</h2> 
+            : <h2>You must sign in to apply</h2> 
+          }
           <form className={classes.container} noValidate autoComplete="off">
             <TextField
               label="Title"
@@ -74,7 +91,9 @@ class NewApllicationForm extends Component {
                 variant="raised" 
                 color="primary" 
                 className={classes.button}
-               >
+                onClick={this.handleAddApplication}
+                disabled={this.props.user && this.state.applicationTitle && this.state.applicationText ? false : true }
+              >
                 Apply
               </Button>
             </div>
@@ -92,4 +111,13 @@ NewApllicationForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NewApllicationForm);
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginReducer.user,
+  }
+}
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps)
+)(NewApllicationForm);

@@ -7,6 +7,7 @@ router.post('/*', function(req, res, next) {
 
   User.findOne({ username: req.body.username }, (err, user) => {
 
+    if (err) return next(err);
     if (user) {     
       res.json({ 
         success: false, 

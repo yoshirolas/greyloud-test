@@ -1,27 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ApplicationsListItem from '../components/ApplicationsListItem';
 import NewApllicationForm from '../components/NewApllicationForm';
 
 
-const testArr = [1,2,3,4,4,5,5,5,5,5,5];
-
 class ApplicationsList extends React.Component {
+
   render() {
 
     const applicationItem = item => {
       return (
-        <ApplicationsListItem />
+        <ApplicationsListItem 
+          key={item._id}
+          applicationTitle={item.title}
+          applicationText={item.text}
+          username={item.username}
+          applicationDate={item.date}
+        />
       );
     }
 
     return (
       <div className="applicationListContainer">
         <NewApllicationForm 
-          active={this.props.newApplicationForm}
+          active={this.props.newApplicationFormActive}
         />
         <section className="applicationList">
-          {testArr.map(item => applicationItem(item))}
+          {this.props.applicationsList.map(item => applicationItem(item))}
         </section>
       </div>
     );
@@ -29,4 +35,11 @@ class ApplicationsList extends React.Component {
 }
 
 
-export default ApplicationsList;
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginReducer.user,
+    applicationsList: state.applicationsReducer
+  }
+}
+
+export default connect(mapStateToProps)(ApplicationsList);

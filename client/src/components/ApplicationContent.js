@@ -77,7 +77,7 @@ class ApplicationContent extends Component {
 		      </Button>
       	</div>
       	<ApplicationsList 
-      		newApplicationForm={this.state.applicationFormOpen}
+      		newApplicationFormActive={this.state.applicationFormOpen}
       	/>
       </div>
     );
