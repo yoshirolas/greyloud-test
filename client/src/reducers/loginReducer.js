@@ -1,9 +1,24 @@
-function loginReducer (state = [], action) {
+const initState = {
+  user: '',
+  message: '',
+}
+
+function loginReducer (state = initState, action) {
   switch (action.type) {
 
-    case 'SUCCESS': {
+    case 'SET_CURRENT_USER': {
 
-      return action.payload
+      return Object.assign({}, { user: action.payload })
+    }
+
+    case 'SHOW_ERR_MESSAGE': {
+
+      return Object.assign({}, { message: action.payload })
+    }
+
+    case 'CLEAN_MESSAGE': {
+
+      return Object.assign({}, { message: action.payload })
     }
 
     default:

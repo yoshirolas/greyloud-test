@@ -1,5 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 
 import MainContent from './MainContent';
 import PropTypes from 'prop-types';
@@ -151,11 +153,10 @@ class App extends React.Component {
             </div>
             <div className={classes.appBarRightContainer}>
 
-              {this.props.user
-              ? (
-                  <div className={classes.loginContainer}>
+              { this.props.user
+                ? <div className={classes.loginContainer}>
                     <Typography variant="title" color="inherit" noWrap>
-                      {this.props.user.userName}
+                      {this.props.user}
                     </Typography>
                     <NavLink to="/profile">
                       <IconButton
@@ -168,9 +169,8 @@ class App extends React.Component {
                       </IconButton>
                     </NavLink>
                   </div>
-                )
-              : (
-                  <div className={classes.loginContainer}>
+
+                : <div className={classes.loginContainer}>
                     <NavLink to="/login">
                       <Button 
                         color="inherit" 
@@ -179,7 +179,6 @@ class App extends React.Component {
                       </Button>
                     </NavLink>
                   </div>
-                )
               }
             </div>
           </Toolbar>
@@ -225,4 +224,13 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(App);
+const mapStateToProps = (state) => {
+  return {
+    user: state.loginReducer.user,
+  }
+}
+
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  connect(mapStateToProps)
+)(App);
