@@ -8,7 +8,11 @@ router.post('/*', function(req, res, next) {
   User.findOne({ username: req.body.username }, (err, user) => {
 
     if (user) {     
-      res.json({ success: false, message: "This name already in use" })
+      res.json({ 
+        success: false, 
+        message: "This name already in use",
+        messageField: 'username'
+      })
       return 
 
     } else {

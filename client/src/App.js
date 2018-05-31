@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
+import { cleanErrMessage } from './actions/appActions';
 
 import MainContent from './MainContent';
 import PropTypes from 'prop-types';
@@ -91,8 +92,11 @@ class App extends React.Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
+  handleCleanPreviousErrMessage = () => {
+    this.props.dispatch(cleanErrMessage());
+  }
+
   render() {
-    console.log(this.props.location.pathname)
     const { classes, theme } = this.props;
 
     const drawer = (
@@ -174,7 +178,9 @@ class App extends React.Component {
                     <NavLink to="/login">
                       <Button 
                         color="inherit" 
-                        className={classes.menuButton}>
+                        className={classes.menuButton}
+                        onClick={this.handleCleanPreviousErrMessage}
+                      >
                         Login
                       </Button>
                     </NavLink>

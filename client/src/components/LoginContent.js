@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { asyncSignUp, asyncSignIn, cleanMessage } from '../actions/appActions';
+import { asyncSignUp, asyncSignIn, cleanErrMessage } from '../actions/appActions';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -40,6 +40,7 @@ class LoginContent extends Component {
       name: '',
       password: '',
       message: this.props.message,
+      messageField: this.props.messageField
     }
   }
 
@@ -47,7 +48,7 @@ class LoginContent extends Component {
     this.setState({
       [field]: event.target.value,
     });
-    this.props.dispatch(cleanMessage());
+    this.props.dispatch(cleanErrMessage());
   };
 
   handleSignUp = () => {
@@ -79,8 +80,13 @@ class LoginContent extends Component {
           ? ''
           : <form className={classes.container} noValidate autoComplete="off">
             	<TextField
+            		error={this.props.message && this.props.messageField === 'username'}
     	          id="username-input"
-    	          label={this.props.message ? `${this.props.message}` : "Name"}
+    	          label={
+    	          	this.props.message && this.props.messageField === 'username' 
+    	          	? `${this.props.message}` 
+    	          	: "Name"
+    	          }
     	          className={classes.textField}
     	          value={this.state.name}
     	          onChange={this.handleChange('name')}
@@ -88,8 +94,13 @@ class LoginContent extends Component {
     	          margin="normal"
             	/>
     	        <TextField
+    	        	error={this.props.message && this.props.messageField === 'password'}
     	          id="password-input"
-    	          label="Password"
+    	          label={
+    	          	this.props.message && this.props.messageField === 'password' 
+    	          	? `${this.props.message}` 
+    	          	: "Password"
+    	          }
     	          className={classes.textField}
     	          type="password"
                 value={this.state.password}
@@ -129,7 +140,8 @@ LoginContent.propTypes = {
 const mapStateToProps = (state) => {
   return {
     user: state.loginReducer.user,
-    message: state.loginReducer.message
+    message: state.loginReducer.message,
+    messageField: state.loginReducer.messageField,
   }
 }
 

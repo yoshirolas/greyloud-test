@@ -13,12 +13,20 @@ function loginReducer (state = initState, action) {
 
     case 'SHOW_ERR_MESSAGE': {
 
-      return Object.assign({}, { message: action.payload })
+      return Object.assign({}, 
+      { 
+      	message: action.payload.message,
+      	messageField: action.payload.messageField,
+      })
     }
 
-    case 'CLEAN_MESSAGE': {
+    case 'CLEAN_ERR_MESSAGE': {
 
-      return Object.assign({}, { message: action.payload })
+      return Object.assign({}, 
+      { 
+      	message: action.payload,
+      	messageField: action.payload, 
+      })
     }
 
     default:

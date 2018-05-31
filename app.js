@@ -61,7 +61,6 @@ passport.deserializeUser(function(id, done) {
 
 //---Routers
 app.use('/', indexRouter);
-app.use('/message', messageRouter);
 app.use('/login', loginRouter);
 // app.use('/logout', logoutRouter);
 app.use('/register', registerRouter);

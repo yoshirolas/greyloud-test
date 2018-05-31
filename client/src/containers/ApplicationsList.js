@@ -4,7 +4,7 @@ import ApplicationsListItem from '../components/ApplicationsListItem';
 import NewApllicationForm from '../components/NewApllicationForm';
 
 
-const testArr = [1,2,3,4];
+const testArr = [1,2,3,4,4,5,5,5,5,5,5];
 
 class ApplicationsList extends React.Component {
   render() {
