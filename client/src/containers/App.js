@@ -7,9 +7,9 @@ import {
   asyncGetApplicationsList, 
   signOut, 
   dropCurrentApplicationsList 
-} from './actions/appActions';
+} from '../actions/appActions';
 
-import MainContent from './MainContent';
+import MainContent from '../components/MainContent';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ApplicationsListItem from '../components/ApplicationsListItem';
-import NewApllicationForm from '../components/NewApllicationForm';
+import NewApllicationForm from './NewApllicationForm';
 
 
 class ApplicationsList extends React.Component {

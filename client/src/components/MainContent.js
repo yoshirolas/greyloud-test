@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import HomeContent from './components/HomeContent';
-import NewsContent from './components/NewsContent';
-import AboutContent from './components/AboutContent';
-import ContactsContent from './components/ContactsContent';
-import ApplicationContent from './components/ApplicationContent';
-import LoginContent from './components/LoginContent';
-import ProfileContent from './components/ProfileContent';
+import HomeContent from './HomeContent';
+import NewsContent from './NewsContent';
+import AboutContent from './AboutContent';
+import ContactsContent from './ContactsContent';
+import ApplicationContent from './ApplicationContent';
+import LoginContent from '../containers/LoginContent';
+import ProfileContent from './ProfileContent';
 
 
 const Main = styled.main`
