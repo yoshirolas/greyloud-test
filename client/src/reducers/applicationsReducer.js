@@ -8,6 +8,11 @@ function applicationsReducer (state = initState, action) {
       return [...action.payload]
     }
 
+    case 'DROP_APPLICATIONS_LIST': {
+
+      return [...action.payload]
+    }
+
     default:
 
       return state;

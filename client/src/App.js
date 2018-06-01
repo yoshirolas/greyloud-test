@@ -2,7 +2,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import { cleanErrMessage, asyncGetApplicationsList } from './actions/appActions';
+import { 
+  cleanErrMessage, 
+  asyncGetApplicationsList, 
+  signOut, 
+  dropCurrentApplicationsList 
+} from './actions/appActions';
 
 import MainContent from './MainContent';
 import PropTypes from 'prop-types';
@@ -20,6 +25,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 const drawerWidth = 240;
 
@@ -79,13 +86,14 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
   },
   menuButton: {
-    color: 'white',
+    color: 'white'
   },
 });
 
 class App extends React.Component {
   state = {
     mobileOpen: false,
+    anchorEl: null,
   };
 
   handleDrawerToggle = () => {
@@ -105,8 +113,25 @@ class App extends React.Component {
     }
   }
 
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleLogOut = () => {
+    this.handleClose();
+    this.props.dispatch(signOut());
+    this.props.dispatch(dropCurrentApplicationsList());
+  }
+
   render() {
     const { classes, theme } = this.props;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
 
     const drawer = (
       <div className={classes.toolbar}>
@@ -136,7 +161,7 @@ class App extends React.Component {
             </ListItem>
           </NavLink>
           <Divider />
-          <NavLink id="123" to="/application" onClick={this.handleGetUsersApplications}>
+          <NavLink to="/application" onClick={this.handleGetUsersApplications}>
             <ListItem button>
               <ListItemText primary="Applications" />
             </ListItem>
@@ -170,16 +195,38 @@ class App extends React.Component {
                     <Typography variant="title" color="inherit" noWrap>
                       {this.props.user}
                     </Typography>
-                    <NavLink to="/profile">
+
                       <IconButton
-                        aria-owns="menu-appbar"
+                        aria-owns={open ? 'menu-appbar112' : null}
                         aria-haspopup="true"
                         color="inherit"
                         className={classes.menuButton}
+                        onClick={this.handleMenu}
                       >
                         <AccountCircle />
                       </IconButton>
-                    </NavLink>
+
+                    <Menu
+                      id="menu-appbar112"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={open}
+                      onClose={this.handleClose}
+                    >
+                      <NavLink to="/profile">
+                        <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                      </NavLink>
+                      <NavLink to="/">
+                        <MenuItem onClick={this.handleLogOut}>Log Out</MenuItem>
+                      </NavLink>
+                    </Menu>
                   </div>
 
                 : <div className={classes.loginContainer}>

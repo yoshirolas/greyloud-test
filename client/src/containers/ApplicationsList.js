@@ -27,7 +27,11 @@ class ApplicationsList extends React.Component {
           active={this.props.newApplicationFormActive}
         />
         <section className="applicationList">
-          {this.props.applicationsList.map(item => applicationItem(item))}
+          {
+            this.props.user 
+            ? this.props.applicationsList.map(item => applicationItem(item))
+            : null
+          }
         </section>
       </div>
     );

@@ -32,6 +32,9 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  applicationText: {
+    wordWrap: 'break-word'
+  },
 });
 
 
@@ -71,7 +74,7 @@ class ApplicationsListItem extends React.Component {
           
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>
+              <Typography paragraph className={classes.applicationText}>
                 {this.props.applicationText}
               </Typography>
             </CardContent>

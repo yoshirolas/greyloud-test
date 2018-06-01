@@ -53,10 +53,16 @@ export const asyncSignIn = (username, password) => (dispatch) => {
   })
 }
 
+export const signOut = () => ({
+  type: 'SET_CURRENT_USER',
+  payload: '',
+});
+
 export const cleanErrMessage = () => ({
   type: 'CLEAN_ERR_MESSAGE',
   payload: '',
 });
+
 
 export const asyncGetApplicationsList = (username) => (dispatch) => {
   axios.post(
@@ -91,3 +97,8 @@ export const asyncAddApplication = (username, title, text) => (dispatch) => {
     } else return
   })
 }
+
+export const dropCurrentApplicationsList = () => ({
+  type: 'DROP_APPLICATIONS_LIST',
+  payload: [],
+});
